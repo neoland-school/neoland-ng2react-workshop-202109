@@ -13,6 +13,7 @@ class App extends Component {
 
     this.handleLogin = this.handleLogin.bind(this)
     this.handleGoToRegister = this.handleGoToRegister.bind(this)
+    this.handleRegister = this.handleRegister.bind(this)
   }
 
   handleLogin() {
@@ -23,12 +24,16 @@ class App extends Component {
     this.setState({ register: true })
   }
 
+  handleRegister() {
+    this.setState({ register: false })
+  }
+
   render() {
     return <div className="App">
       { !this.state.loggedIn && !this.state.register && <Login onLogin={this.handleLogin} /> }
       { this.state.loggedIn && <Home /> }
       { !this.state.loggedIn && !this.state.register && <button onClick={this.handleGoToRegister}>Register</button> }
-      { this.state.register && <Register /> }
+      { this.state.register && <Register onRegister={this.handleRegister} /> }
     </div>
   }
 }
