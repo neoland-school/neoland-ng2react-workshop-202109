@@ -1,4 +1,4 @@
-import { validateEmail } from './utils'
+import { validateEmail } from '../utils'
 
 export function login(email, password) {
     if (typeof email !== 'string') throw new TypeError(`${email} is not string`)

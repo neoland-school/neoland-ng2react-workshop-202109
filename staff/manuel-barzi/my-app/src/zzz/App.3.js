@@ -1,15 +1,15 @@
-//import logo from './logo.svg';
 import './App.css';
 import Login from './Login'
 import { Component } from 'react'
 import Home from './Home'
 import Register from './Register'
+import { loggedIn } from '../services/user.service'
 
 class App extends Component {
   constructor() {
     super()
 
-    this.state = { loggedIn: false, register: false }
+    this.state = { loggedIn: loggedIn(), register: false }
 
     this.handleLogin = this.handleLogin.bind(this)
     this.handleGoToRegister = this.handleGoToRegister.bind(this)
@@ -28,12 +28,20 @@ class App extends Component {
     this.setState({ register: false })
   }
 
+  handleLogout = () => {
+    this.setState({ loggedIn: false })
+  }
+
   render() {
+    const { state: { loggedIn, register }, handleLogin, handleGoToRegister, handleRegister, handleLogout } = this
+
     return <div className="App">
-      { !this.state.loggedIn && !this.state.register && <Login onLogin={this.handleLogin} /> }
-      { this.state.loggedIn && <Home /> }
-      { !this.state.loggedIn && !this.state.register && <button onClick={this.handleGoToRegister}>Register</button> }
-      { this.state.register && <Register onRegister={this.handleRegister} /> }
+      {!loggedIn && !register && <>
+        <Login onLogin={handleLogin} />
+        <button onClick={handleGoToRegister}>Register</button>
+      </>}
+      {register && <Register onRegister={handleRegister} />}
+      {loggedIn && <Home onLogout={handleLogout} />}
     </div>
   }
 }

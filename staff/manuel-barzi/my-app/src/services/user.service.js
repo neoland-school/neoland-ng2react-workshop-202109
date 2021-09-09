@@ -1,4 +1,4 @@
-import { validateEmail } from './utils'
+import { validateEmail } from '../utils'
 
 export function login(email, password) {
     if (typeof email !== 'string') throw new TypeError(`${email} is not string`)
@@ -17,7 +17,7 @@ export function login(email, password) {
                     .then(res => {
                         const { token } = res
 
-                        return token
+                        sessionStorage.token = token
                     })
             else {
                 if (res.status >= 400 && res.status < 500)
@@ -63,7 +63,9 @@ export function register(name, email, password) {
         })
 }
 
-export function retrieve(token) {
+export function retrieve() {
+    const token = sessionStorage.token
+
     if (typeof token !== 'string') throw new TypeError(`${token} is not string`)
     if (!token.trim().length) throw new Error(`token ${token} is empty or blank`)
 
@@ -73,14 +75,12 @@ export function retrieve(token) {
         .then(res => {
             if (res.ok)
                 return res.json()
-                    .then(res => {
-                        return res
-                    })
+                    .then(data => data)
             else {
                 if (res.status >= 400 && res.status < 500)
                     return res.json()
-                        .then(res => {
-                            const { error } = res
+                        .then(data => {
+                            const { error } = data
 
                             throw new Error(error)
                         })
@@ -88,4 +88,12 @@ export function retrieve(token) {
                     throw new Error('server error')
             }
         })
+}
+
+export function loggedIn() {
+    return !! sessionStorage.token
+}
+
+export function logout() {
+    delete sessionStorage.token
 }
