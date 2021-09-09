@@ -1,32 +1,37 @@
 import './App.css';
 import Login from './Login'
-import { useState } from 'react'
 import Home from './Home'
 import Register from './Register'
 import { loggedIn } from '../services/user.service'
+import { Route, Redirect, Link, useHistory } from 'react-router-dom'
 
 function App() {
-  const [view, setView] = useState(loggedIn() ? 'home' : 'login')
+  const history = useHistory()
 
   const handleGotoHome = () => {
-    setView('home')
-  }
-
-  const handleGoToRegister = () => {
-    setView('register')
+    history.push('/home')
   }
 
   const handleGotoLogin = () => {
-    setView('login')
+    history.push('/login')
   }
 
   return <div className="App">
-    {view === 'login' && <>
+    <Route path="/login" render={() => loggedIn() ? <Redirect to="/home" /> : <>
       <Login onLogin={handleGotoHome} />
-      <button onClick={handleGoToRegister}>Register</button>
-    </>}
-    {view === 'register' && <Register onRegister={handleGotoLogin} />}
-    {view === 'home' && <Home onLogout={handleGotoLogin} />}
+
+      <Link to="/register"><button>Register</button></Link>
+    </>} />
+
+    <Route path="/register" render={() => loggedIn() ? <Redirect to="/home" /> : <>
+      <Register onRegister={handleGotoLogin} />
+
+      <Link to="/login"><button>Login</button></Link>
+    </>} />
+
+    <Route path="/home" render={() => loggedIn() ? <Home onLogout={handleGotoLogin} /> : <Redirect to="/login" />} />
+
+    <Route path="/hello/:name" render={props => <h1>Hello {props.match.params.name}!</h1>} />
   </div>
 }
 
