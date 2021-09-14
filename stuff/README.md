@@ -1,11 +1,11 @@
 Follow these steps to work with the workshop repo
 
-1) fork https://github.com/neoland-school/neoland-workshop-202109
+1) fork https://github.com/neoland-school/neoland-ng2react-workshop-202109
 
 2) clone it
 
 ```sh
-$ git clone https://github.com/<my-username>/neoland-workshop-202109
+$ git clone https://github.com/<my-username>/neoland-ng2react-workshop-202109
 ```
 
 3) open code in it
