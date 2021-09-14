@@ -11,7 +11,7 @@ $ git clone https://github.com/<my-username>/neoland-ng2react-workshop-202109
 3) open code in it
 
 ```sh
-$ code neoland-workshop-202109
+$ code neoland-ng2react-workshop-202109
 ```
 
 4) create your workshop branch
